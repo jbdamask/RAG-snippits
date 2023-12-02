@@ -12,7 +12,6 @@ _ = load_dotenv(find_dotenv()) # read local .env file
 AWS_ACCESS_KEY = var = os.getenv('AWS_ACCESS_KEY')
 AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
 AWS_REGION = os.getenv('AWS_REGION')
-# BUCKET_NAME = 'flagship-protocols-test'
 OPENAI_API_KEY=os.getenv('OPENAI_API_KEY')
 PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 PINECONE_ENVIRONMENT = os.getenv('PINECONE_ENVIRONMENT')
@@ -59,6 +58,11 @@ def load_pdfs(bucket_name, local_directory):
             if file_name.endswith('.pdf'):
                 print('Found a PDF')
                 file_path = os.path.join(root, file_name)
+                """
+                Generic PyPDFLoader to load PDFs and split into documents.
+                Note that this is only useful for PDFs that are already text-based.
+                PDFs with images or tables will not be processed correctly.
+                """
                 loader = PyPDFLoader(file_path=file_path)
                 docs = loader.load_and_split(text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100))
                 print(f"loading {file_name} into pinecone index")
