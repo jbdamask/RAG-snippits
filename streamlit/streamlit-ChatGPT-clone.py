@@ -1,4 +1,5 @@
-# streamlit run streamlit-pinecone-RAG.py
+# streamlit run streamlit-ChatGPT-clone.py
+# ChatGPT in undert 30 lines of code
 
 import streamlit as st
 from openai import OpenAI
