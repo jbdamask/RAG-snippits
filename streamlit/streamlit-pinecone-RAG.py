@@ -34,16 +34,17 @@ vector_store = Pinecone.from_existing_index(PINECONE_INDEX, embeddings)
 st.title("Lab protocol chatbot")
 
 
-def query_llm(retriever, query):
-    qa_chain = ConversationalRetrievalChain.from_llm(
-        llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY),
-        retriever=retriever,
-        return_source_documents=True,
-    )
+def query_llm(retriever, query, qa_chain):
+    # qa_chain = ConversationalRetrievalChain.from_llm(
+    #     llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY),
+    #     retriever=retriever,
+    #     return_source_documents=True,
+    # )
     result = qa_chain({'question': query, 'chat_history': st.session_state.messages})
     result = result['answer']
     st.session_state.messages.append((query, result))
     return result
+
 
 def boot():
 
@@ -76,7 +77,7 @@ def boot():
     #
     if query := st.chat_input():
         st.chat_message("human").write(query)
-        response = query_llm(st.session_state.retriever, query)
+        response = query_llm(st.session_state.retriever, query, chain)
         st.chat_message("ai").write(response)
 
 if __name__ == '__main__':
